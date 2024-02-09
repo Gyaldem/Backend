@@ -15,8 +15,9 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Node project for our solution for gdg hack ",
-  "main": "index.js",
+  "main": "src/App.js",
   "scripts": {
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

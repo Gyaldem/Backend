@@ -8,8 +8,8 @@ const app = express();
 const EventManagerCont = require('./controllers/EventManagerCont');
 const MentorCont = require('./controllers/MentorCont');
 
-const { AddParticipant, AddMentor, login } = EventManagerCont;
-const { MentorLogin } = MentorCont; // Assuming MentorLogin is exported from MentorCont
+const { AddParticipant, login } = EventManagerCont;
+const { MentorLogin, addMentor } = MentorCont; // Assuming MentorLogin is exported from MentorCont
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -35,13 +35,12 @@ const newParticipant = new Participant({
 //   .catch(err => {
 //     console.error('here is the error' + err);
 //   });
+// Route handler for '/home'
+app.post('/home', (req, res) => {
+  console.log("hind");
+  addMentor(req,res); // Call MentorLogin function
+});
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
-});
-
-// Route handler for '/home'
-app.get('/home', (req, res) => {
-  console.log("here");
-  MentorLogin(req, res); // Call MentorLogin function
 });

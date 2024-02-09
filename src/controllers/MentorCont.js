@@ -1,17 +1,15 @@
 const Mentor = require('../models/Mentor');
-const { generatePasswordHash } = require('./utils/passwordUtils');
-
+const  passwordUtils  = require('../utils/passwordUtils');
+const { generatePasswordHash ,generateRandomPassword } = passwordUtils;
+const bcrypt = require('bcrypt');
+  
 // Controller function to create a new mentor
 const addMentor = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
+        const { email } = req.body;
 
-        
-        const hashedPassword = await generatePasswordHash(password);
-
-        
+        const hashedPassword = await generatePasswordHash(generateRandomPassword());       
         const newMentor = new Mentor({
-            username,
             email,
             password: hashedPassword
         });
@@ -45,7 +43,7 @@ const getMentorById = async (req, res) => {
 const updateMentorProfile = async (req, res) => {
     try {
         const mentorId = req.params.id;
-        const { username, email, newPassword } = req.body;
+        const {  email, newPassword } = req.body;
 
         // Hash the new password if provided
         let hashedPassword;
@@ -55,7 +53,6 @@ const updateMentorProfile = async (req, res) => {
 
         // Update mentor profile in the database
         const updatedMentor = await Mentor.findByIdAndUpdate(mentorId, {
-            username,
             email,
             password: hashedPassword // Update password if provided
         }, { new: true });
@@ -90,16 +87,20 @@ const MentorLogin = async (req, res) => {
     try {
       // Find the user by email
       const user = await Mentor.findOne({ email });
-  
+      console.log('here is the email ' + email);
+      console.log('here is the password ' + password);
+      console.log('hre is the mentor'+ user);
       // If user not found, return error
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
   
       // Check if the password matches
-      const isPasswordValid = await user.comparePassword(password);
-  
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+       console.log('here is the password'+password);
+
       // If password is invalid, return error
+      console.log(isPasswordValid);
       if (!isPasswordValid) {
         return res.status(401).json({ message: 'Invalid password' });
       }
@@ -113,9 +114,10 @@ const MentorLogin = async (req, res) => {
   };
 
   module.exports = {
+    MentorLogin ,
     addMentor,
     getMentorById,
     updateMentorProfile,
     deleteMentor ,
-    MentorLogin
+    
 };
