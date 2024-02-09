@@ -10,6 +10,10 @@ const mentorSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  } ,
+  specialization : {
+    required: true ,
+    type: String
   }
   
 });

@@ -7,6 +7,8 @@ const { generatePasswordHash, generateRandomPassword } = require('./Utils/passwo
 const app = express();
 const EventManagerCont = require('./controllers/EventManagerCont');
 const MentorCont = require('./controllers/MentorCont');
+const emailUtils=require('./utils/emailUtils');
+const {sendEmail}=emailUtils;
 
 const { AddParticipant, login } = EventManagerCont;
 const { MentorLogin, addMentor } = MentorCont; // Assuming MentorLogin is exported from MentorCont
@@ -44,3 +46,4 @@ app.post('/home', (req, res) => {
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
+// sendEmail("ll_aouinine@esi.dz")

@@ -33,8 +33,13 @@ function generateRandomPassword() {
     }
     return password;
 }
+function generatePassword()
+{
+    return generatePasswordHash(generateRandomPassword());
+}
 
 module.exports = {
     generatePasswordHash,
-    generateRandomPassword
+    generateRandomPassword,
+    generatePassword
 };
