@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.1.1"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Node project for our solution for gdg hack ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gyaldem/Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gyaldem/Backend/issues"
+  },
+  "homepage": "https://github.com/Gyaldem/Backend#readme"
+}
