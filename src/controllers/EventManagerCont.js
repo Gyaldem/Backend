@@ -1,4 +1,4 @@
-const EventManager = require('../models/EventManager');
+const EventManager = require('../models/EvenetManager');
 const Participant = require('../models/Participant');
 const team= require('../models/Team');
 const getEventManagerById = async (req, res) => {
@@ -66,10 +66,7 @@ const generateSpacesFromExcel = async (req, res) => {
   }
 };
 
-module.exports = {
-  getEventManagerById,
-  generateSpacesFromExcel
-};
+
 
 
 function generateRandomPassword(length) {
@@ -85,5 +82,8 @@ function generateRandomPassword(length) {
   return password;
 }
 
-
+module.exports = {
+  getEventManagerById,
+  generateSpacesFromExcel,
+};
 

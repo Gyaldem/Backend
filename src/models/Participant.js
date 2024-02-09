@@ -7,7 +7,7 @@ const participantSchema = new mongoose.Schema({
         required: true,
         unique: true
       },
- teamId : String ,
+ teamId : mongoose.Schema.Types.ObjectId ,
  password : {
     type: String,
     required: true,

@@ -11,7 +11,7 @@ const themeSchema = new mongoose.Schema({
     required: true
   },
   eventId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'Event',
   },
   rquirements:{
