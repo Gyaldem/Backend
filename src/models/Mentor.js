@@ -14,7 +14,11 @@ const mentorSchema = new mongoose.Schema({
   specialization : {
     required: true ,
     type: String
-  }
+  },
+  linkedinUrl:{
+    required:true,
+    type:String
+  },
   
 });
 

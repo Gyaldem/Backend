@@ -8,7 +8,7 @@ const LeadSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  }, 
   
 });
 const Lead = mongoose.model('Lead', LeadSchema);
