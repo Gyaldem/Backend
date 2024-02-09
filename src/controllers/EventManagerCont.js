@@ -1,30 +1,26 @@
-const Participant = require('../models/Participant');
-const Juge = require('../models/Juge');
-const Mentor = require('../models/Mentor');
+const EventManager = require('../models/EventManager');
 
-const AddParticipant=async(username , email , teamId)=>
-{
-try {
-const participant = new Participant({username, email, teamId});
-  await participant.save();}
-catch (err) {
-    console.log('An error occured in adding the user to the db '+ err);
-}
-}
 
-const AddMentor= async(username , email , skills, password )=>
-{
-try 
-{
-    const mentor = new Mentor({username, email, skills , password});
-    await mentor.save();
-}
-  catch (err) {
-      console.log('An error occured when adding the mentor to the db '+ err);
+const getEventManagerById = async (req, res) => {
+  try {
+    const eventManagerId = req.params.id;
+    const eventManager = await EventManager.findById(eventManagerId).populate('managedEvents'); 
+    if (!eventManager) {
+      return res.status(404).json({ error: 'Event manager not found' });
+    }
+    res.json(eventManager);
+  } catch (error) {
+    console.error('Error fetching event manager by ID:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-}
-
-module.exports= {
-    AddParticipant ,
-    AddMentor
 };
+
+module.exports = {
+  getEventManagerById
+};
+
+
+
+
+
+
