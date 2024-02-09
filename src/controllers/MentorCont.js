@@ -82,13 +82,7 @@ const deleteMentor = async (req, res) => {
     }
 };
 
-module.exports = {
-    addMentor,
-    getMentorById,
-    updateMentorProfile,
-    deleteMentor
-};
-const Mentor = require('../models/Mentor');
+
 
 const MentorLogin = async (req, res) => {
     const { email, password } = req.body; // Assuming email and password are sent in the request body
@@ -118,6 +112,10 @@ const MentorLogin = async (req, res) => {
     }
   };
 
-  module.exports={
+  module.exports = {
+    addMentor,
+    getMentorById,
+    updateMentorProfile,
+    deleteMentor ,
     MentorLogin
-  }
+};
