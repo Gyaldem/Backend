@@ -2,10 +2,21 @@ const mongoose = require('mongoose');
 
 
 const participantSchema = new mongoose.Schema({
- username : String ,
+    username: {
+        type: String,
+        required: true
+      },
+      email: {
+        type: String,
+        required: true,
+        unique: true
+      },
  teamId : String ,
- email : String ,
- password : String ,
+ password : {
+    type: String,
+    required: true,
+    unique: true
+  },
 });
 
 module.exports = mongoose.model('Participant', participantSchema);
