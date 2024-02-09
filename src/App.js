@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Participant = require('./models/Participant'); // Import the Participant model
+const { generatePasswordHash, generateRandomPassword } = require('./Utils/passwordUtils'); // Import the password utility functions
 const app = express();
 const EventManagerCont = require('./controllers/EventManagerCont');
 const MentorCont = require('./controllers/MentorCont');

@@ -1,80 +1,89 @@
+const EventManager = require('../models/EventManager');
 const Participant = require('../models/Participant');
-const Juge = require('../models/Juge');
-const Mentor = require('../models/Mentor');
-const Event = require('../models/Event');
-const EventManager = require('../models/EvenetManager');
-const AddParticipant=async(username , email , teamId)=>
-{
-try {
-const participant = new Participant({username, email, teamId});
-  await participant.save();}
-catch (err) {
-    console.log('An error occured in adding the participant to the db '+ err);
-}
-}
-
-const AddMentor= async(username , email , skills, password )=>
-{
-try 
-{
-    const mentor = new Mentor({username, email, skills , password});
-    await mentor.save();
-}
-  catch (err) {
-      console.log('An error occured when adding the mentor to the db '+ err);
-  }
-}
-
-
-const AddJuge= async(username , email , skills, password )=>
-{
-try 
-{
-    const Juge = new Juge({username, email, skills , password});
-    await Juge.save();
-}
-  catch (err) {
-      console.log('An error occured when adding the juge to the db '+ err);
-  }
-}
-
-// Assuming you have a User model defined with Mongoose
-
-const login = async (req, res) => {
-  const { email, password } = req.body; // Assuming email and password are sent in the request body
-
+const team= require('../models/Team');
+const getEventManagerById = async (req, res) => {
   try {
-    // Find the user by email
-    const user = await EventManager.findOne({ email });
-
-    // If user not found, return error
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const eventManagerId = req.params.id;
+    const eventManager = await EventManager.findById(eventManagerId).populate('managedEvents'); 
+    if (!eventManager) {
+      return res.status(404).json({ error: 'Event manager not found' });
     }
-
-    // Check if the password matches
-    const isPasswordValid = await user.comparePassword(password);
-
-    // If password is invalid, return error
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid password' });
-    }
-
-    // If email and password are correct, login successful
-    res.status(200).json({ message: 'Login successful', user });
+    res.json(eventManager);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error fetching event manager by ID:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-// module.exports = login;
+const generateSpacesFromExcel = async (req, res) => {
+  try {
+    const excelFile = req.body.excelFile; // Assuming the Excel file is sent in the request body
+    // Code to read the Excel file and extract participant email and team information
+    // ...
+    const workbook = XLSX.read(excelFile, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0]; // Assuming you want to read from the first sheet
+    const sheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
+    // Assuming the first row contains headers and the second row contains data
+    const headers = data[0];
+    const rows = data.slice(1); // Exclude the header row
 
+    const emailColumnIndex = headers.indexOf('Email'); // Assuming 'Email' is the header for the email column
+    const teamColumnIndex = headers.indexOf('Team'); // Assuming 'Team' is the header for the team column
 
-module.exports= {
-    AddParticipant ,
-    AddMentor ,
-    AddJuge , 
-    login
+    const result = rows.map(row => ({
+        email: row[emailColumnIndex],
+        team: row[teamColumnIndex]
+    }));
+    
+    try {
+      for (const participantData of result) {
+          const participant = new Participant({
+              email: participantData.email,
+              teamId: participantData.team,
+              password: generateRandomPassword(8)
+          });
+          await participant.save(); // Save participant to the database
+          console.log(`Participant saved: ${participant}`);
+          const teams = [...new Set(result.map(row => row.team))];
+          for (const teamId of teams) {
+              const team = new team({
+                  _id: teamId,
+                  members: result.filter(row => row.team === teamId).map(row => row.email)
+              });
+              await team.save(); // Save team to the database
+              console.log(`Team saved: ${team}`);
+      }
+      console.log('All participants saved successfully');}
+  } catch (error) {
+      console.error('Error saving participants:', error);
+  }
+    res.json(spaces);
+  } catch (error) {
+    console.error('Error generating spaces from Excel:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
+
+module.exports = {
+  getEventManagerById,
+  generateSpacesFromExcel
+};
+
+
+function generateRandomPassword(length) {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+  const randomBytes = crypto.randomBytes(length);
+  let password = '';
+  
+  for (let i = 0; i < length; i++) {
+      const index = randomBytes[i] % chars.length;
+      password += chars[index];
+  }
+  
+  return password;
+}
+
+
+
