@@ -10,6 +10,9 @@ const EventManagerCont = require('./controllers/EventManagerCont');
 
 const generateSpacesRoute = require('./routes/EventmanagementRoute');
 const fetchDatafromDB=require('./routes/FetchdBRout')
+const{fetchParticipantsFromMongoDB,fetchJudgesFromMongoDB,fetchMentorsFromMongoDB,
+    fetchTeamsFromMongoDB} = require('./routes/FetchdBRout')
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -18,9 +21,11 @@ mongoose.connect("mongodb+srv://lylia:Q9MFU4dIajWfVZVC@auth.zrptolx.mongodb.net/
 
 
 
-app.use('/api', generateSpacesRoute);
-app.use('/api',fetchDatafromDB)
-
+app.use('/', generateSpacesRoute);
+app.use('/',fetchDatafromDB)
+app.use('/',fetchJudgesFromMongoDB)
+app.use('/',fetchMentorsFromMongoDB)
+app.use('/',fetchTeamsFromMongoDB)
 
 app.listen(5000 , ()=>
 {
