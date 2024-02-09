@@ -3,10 +3,13 @@ const mongoose = require('mongoose');
 const Participant = require('./models/Participant'); // Import the Participant model
 const app = express();
 const EventManagerCont = require('./controllers/EventManagerCont');
-const { AddParticipant, AddMentor } = EventManagerCont;
- 
-// AddParticipant("Hind","lh_dehili@€si.dz","14");
-// AddMentor("Hind","lh_dehili@€si.","fullstack","23"); 
+const MentorCont = require('./controllers/MentorCont');
+
+const { AddParticipant, AddMentor, login } = EventManagerCont;
+const { MentorLogin } = MentorCont; // Assuming MentorLogin is exported from MentorCont
+
+// Middleware to parse JSON bodies
+app.use(express.json());
 
 mongoose.connect('mongodb://127.0.0.1:27017/Db')
   .then(() => {
@@ -16,12 +19,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/Db')
     console.error("Error connecting to MongoDB:", err);
   });
 
- 
 const newParticipant = new Participant({
   username: "hindooo",
-
-  teamId : "1" ,
-  email :"lh_dev@gmail.com",
+  teamId: "1",
+  email: "lh_dev@gmail.com",
 });
 
 // newParticipant.save()
@@ -32,11 +33,12 @@ const newParticipant = new Participant({
 //     console.error('here is the error' + err);
 //   });
 
-app.listen(3000 , (req,res)=>
-{
-    console.log('Connected to MongoDB');  
-})
-app.get('./',(req,res)=>
-{
- 
-})
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+
+// Route handler for '/home'
+app.get('/home', (req, res) => {
+  console.log("here");
+  MentorLogin(req, res); // Call MentorLogin function
+});

@@ -20,3 +20,4 @@ const eventManagerSchema = new mongoose.Schema({
 const EventManager = mongoose.model('EventManager', eventManagerSchema);
 
 module.exports = EventManager;
+ 
