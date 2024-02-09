@@ -3,18 +3,22 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const Participant = require('./models/Participant'); // Import the Participant model
-const { generatePasswordHash, generateRandomPassword } = require('./Utils/passwordUtils'); // Import the password utility functions
+const { generatePasswordHash, generateRandomPassword } = require('./Utils/passwordUtils'); // Import the password utility functions 
 const app = express();
-const EventManagerCont = require('./controllers/EventManagerCont');
-const MentorCont = require('./controllers/MentorCont');
-// const emailUtils=require('./utils/emailUtils');
-const AuthentificationUtils = require('./Utils/Authentification')
 
-const {login}=AuthentificationUtils
+// const mentorRoutes=require('./routes/mentorRoutes');
 
 
-const { AddParticipant} = EventManagerCont;
-const { MentorLogin, addMentor ,deleteMentor} = MentorCont; // Assuming MentorLogin is exported from MentorCont
+
+// const EventManagerCont = require('./controllers/EventManagerCont');
+// const MentorCont = require('./controllers/MentorCont');
+// // const emailUtils=require('./utils/emailUtils');
+// const AuthentificationUtils = require('./Utils/Authentification')
+// const {login}=AuthentificationUtils
+// const { AddParticipant} = EventManagerCont;
+// const { MentorLogin, addMentor ,deleteMentor} = MentorCont; // Assuming MentorLogin is exported from MentorCont
+// const {  updateMentorProfile, deleteMentor } = require('./controllers/mentorController'); // Assurez-vous d'importer les contrôleurs correctement selon l'emplacement de votre fichier 
+
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -27,11 +31,24 @@ mongoose.connect('mongodb://127.0.0.1:27017/Db')
     console.error("Error connecting to MongoDB:", err);
   });
 
-const newParticipant = new Participant({
-  username: "hindooo",
-  teamId: "1",
-  email: "lh_dev@gmail.com",
-});
+
+
+
+  app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+  });
+
+
+  // app.use('/', mentorRoutes); // Mounting mentor routes to /api/mentors path
+
+
+
+// const newParticipant = new Participant({
+//   username: "hindooo",
+//   teamId: "1",
+//   email: "lh_dev@gmail.com",
+// });
+
 
 // newParticipant.save()
 //   .then(result => {
@@ -41,12 +58,12 @@ const newParticipant = new Participant({
 //     console.error('here is the error' + err);
 //   });
 // Route handler for '/home'
-app.get('/home', (req, res) => {
-  console.log("hind");
-  login(req,res); // Call MentorLogin function
-});
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+
+// app.get('/home', (req, res) => {
+//   console.log("hind");
+//   login(req,res); // Call MentorLogin function
+// });
+
+
 // sendEmail("ll_aouinine@esi.dz")
