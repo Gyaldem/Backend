@@ -6,7 +6,7 @@ const XLSX = require('xlsx');
 const crypto = require('crypto');
 const mongoose=require('mongoose')
 const Team= require('../models/Team');
-
+const emailSender=require('../Utils/emailSender')
 
 
 const getEventManagerById = async (req, res) => {
@@ -44,16 +44,8 @@ const generateSpacesFromExcel = async (req, res) => {
 
     const result = rows.map(row => ({
       email: row[emailColumnIndex],
-      team: row[teamColumnIndex]
+      team: row[teamColumnIndex],
     }));
-
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'lyliaaouin@gmail.com',
-        pass: 'esiLylia#1.6888$'
-      }
-    });
 
     for (const participantData of result) {
       const password = generateRandomPassword(8);
@@ -70,22 +62,8 @@ const generateSpacesFromExcel = async (req, res) => {
       });
       await participant.save(); // Save participant to the database
       console.log(`Participant saved: ${participant}`);
-
-      const mailOptions = {
-        from: 'll_aouinine@esi.dz',
-        to: participant.email,
-        subject: 'Login Details for Website',
-        html: `<p>Hello ${participant.email},</p><p>Your password is: ${password}</p><p>Click <a href="http://yourwebsite.com/login">here</a> to login.</p>`
+      emailSender(participant.email,participant.email,password,"http://yourwebsite.com/login")
       
-      };
-
-      transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-          console.error('Error sending email:', error);
-        } else {
-          console.log('Email sent:', info.response);
-        }
-      });
     }
 
     const teams = [...new Set(result.map(row => row.team))];

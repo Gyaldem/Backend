@@ -4,6 +4,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const nodemailer = require('Nodemailer');
+
+
 
 const app = express();
 require('dotenv').config();
@@ -20,6 +23,8 @@ mongoose.connect("mongodb+srv://lylia:Q9MFU4dIajWfVZVC@auth.zrptolx.mongodb.net/
 app.use('/api', generateSpacesRoute);
 app.use('/api/fetch', fetchDatafromDB); // Use the router file as middleware
 
+
 app.listen(5000, () => {
   console.log('Connected to MongoDB');
+  
 });
