@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 
+
 function generatePasswordHash(plaintextPassword) {
     return new Promise((resolve, reject) => {
         // Generate a salt
@@ -23,17 +24,22 @@ function generatePasswordHash(plaintextPassword) {
     });
 }
 
-function generateRandomPassword(length = 8) {
+function generateRandomPassword() {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // Characters to include in the password
     let password = "";
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < 8; i++) {
         const randomIndex = Math.floor(Math.random() * charset.length);
         password += charset[randomIndex];
     }
     return password;
 }
+function generatePassword()
+{
+    return generatePasswordHash(generateRandomPassword());
+}
 
 module.exports = {
     generatePasswordHash,
-    generateRandomPassword
+    generateRandomPassword,
+    generatePassword
 };

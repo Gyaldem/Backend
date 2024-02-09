@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const mentorSchema = new mongoose.Schema({
-    username: {
-    type: String,
-    required: true
-  },
+ 
   email: {
     type: String,
     required: true,
@@ -13,6 +10,10 @@ const mentorSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  } ,
+  specialization : {
+    required: true ,
+    type: String
   }
   
 });

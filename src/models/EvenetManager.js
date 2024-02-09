@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const eventManagerSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
   email: {
     type: String,
     required: true,
@@ -20,3 +16,4 @@ const eventManagerSchema = new mongoose.Schema({
 const EventManager = mongoose.model('EventManager', eventManagerSchema);
 
 module.exports = EventManager;
+ 

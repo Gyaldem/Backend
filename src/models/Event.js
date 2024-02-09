@@ -1,23 +1,25 @@
 const mongoose = require('mongoose');
-
+const EventManager = require('./EvenetManager');
+ 
 const eventSchema = new mongoose.Schema({
-  name: String, 
-  date: Date, 
-  teams: [{ type: String, ref: 'Team' }], 
-  mentors: [{ type: String, ref: 'Mentor' }], 
-  judges: [{ type: String, ref: 'Judge' }],
+  name: String,
+  date: Date,
+  teams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Team' }],
+  mentors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Mentor' }],
+  judges: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Judge' }],
   description: String,
-  challenges: [{ type: String, ref: 'Challenge' }],
-  theme: { type: String, ref: 'Theme' }, 
+  challenges: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Challenge' }],
+  theme: { type: mongoose.Schema.Types.ObjectId, ref: 'Theme' },
   agenda: [
     {
-      startTime: Date, 
-      endTime: Date, 
-      title: String, 
-      description: String 
+      startTime: Date,
+      endTime: Date,
+      title: String,
+      description: String
     }
   ],
-  countdownEndTime: Date
+  countdownEndTime: Date,
+  eventManager: { type: mongoose.Schema.Types.ObjectId, ref: 'EventManager' }
 });
 
 // Define static method for the event schema
