@@ -34,7 +34,7 @@ const submissionSchema = new mongoose.Schema({
     type: Object, // Add any additional metadata fields as needed
   },
   // Add references to related entities if needed
-  userId: {
+  teamId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },

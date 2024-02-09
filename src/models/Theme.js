@@ -10,6 +10,16 @@ const themeSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  eventId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event',
+  },
+  rquirements:{
+    type: String,
+    required: true
+  }
+
+
 });
 
 const Theme = mongoose.model('Theme', themeSchema);

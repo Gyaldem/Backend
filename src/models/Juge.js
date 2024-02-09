@@ -9,6 +9,10 @@ const judgeSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  linkedIn: {
+    type: String,
+    required: true
+  },
   specialization: {
     type: String,
     required: true
