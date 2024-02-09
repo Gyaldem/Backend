@@ -18,6 +18,7 @@ const judgeSchema = new mongoose.Schema({
     required: true
   }
   
+  
 });
 const Judge = mongoose.model('Judge', judgeSchema);
 

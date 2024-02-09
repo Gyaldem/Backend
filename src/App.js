@@ -7,11 +7,14 @@ const { generatePasswordHash, generateRandomPassword } = require('./Utils/passwo
 const app = express();
 const EventManagerCont = require('./controllers/EventManagerCont');
 const MentorCont = require('./controllers/MentorCont');
-const emailUtils=require('./utils/emailUtils');
-const {sendEmail}=emailUtils;
+// const emailUtils=require('./utils/emailUtils');
+const AuthentificationUtils = require('./Utils/Authentification')
 
-const { AddParticipant, login } = EventManagerCont;
-const { MentorLogin, addMentor } = MentorCont; // Assuming MentorLogin is exported from MentorCont
+const {login}=AuthentificationUtils
+
+
+const { AddParticipant} = EventManagerCont;
+const { MentorLogin, addMentor ,deleteMentor} = MentorCont; // Assuming MentorLogin is exported from MentorCont
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -38,9 +41,9 @@ const newParticipant = new Participant({
 //     console.error('here is the error' + err);
 //   });
 // Route handler for '/home'
-app.post('/home', (req, res) => {
+app.get('/home', (req, res) => {
   console.log("hind");
-  addMentor(req,res); // Call MentorLogin function
+  login(req,res); // Call MentorLogin function
 });
 
 app.listen(3000, () => {

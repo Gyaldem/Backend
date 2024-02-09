@@ -1,18 +1,19 @@
 const Mentor = require('../models/Mentor');
-const  passwordUtils  = require('../utils/passwordUtils');
+const  passwordUtils  = require('../Utils/passwordUtils');
 const { generatePasswordHash ,generateRandomPassword } = passwordUtils;
 const bcrypt = require('bcrypt');
   
 // Controller function to create a new mentor
 const addMentor = async (req, res) => {
     try {
-        const { email , specialization  } = req.body;
+        const { email , specialization , linkedinUrl  } = req.body;
 
         const hashedPassword = await generatePasswordHash(generateRandomPassword());       
         const newMentor = new Mentor({
             email,
             password: hashedPassword ,
-            specialization : specialization 
+            specialization : specialization , 
+            linkedinUrl: linkedinUrl
         });
 
         // Save the new mentor to the database
@@ -26,13 +27,12 @@ const addMentor = async (req, res) => {
 };
 
 // Controller function to retrieve mentor information
-const getMentorById = async (req, res) => {
+const getMentor = async (req, res) => {
     try {
-        const mentorId = req.params.id;
-
+       const {email} = req.body;
+        ;
         // Find the mentor by ID in the database
-        const mentor = await Mentor.findById(mentorId);
-
+        const mentor = await Mentor.findById(email);
         res.json(mentor);
     } catch (error) {
         console.error('Error retrieving mentor:', error);
@@ -68,11 +68,9 @@ const updateMentorProfile = async (req, res) => {
 // Controller function to delete mentor
 const deleteMentor = async (req, res) => {
     try {
-        const mentorId = req.params.id;
-
+        const {email} = req.body;
         // Delete mentor from the database
-        await Mentor.findByIdAndDelete(mentorId);
-
+        await Mentor.findOneAndDelete({email});
         res.status(204).end();
     } catch (error) {
         console.error('Error deleting mentor:', error);
@@ -84,7 +82,6 @@ const deleteMentor = async (req, res) => {
 
 const MentorLogin = async (req, res) => {
     const { email, password } = req.body; // Assuming email and password are sent in the request body
-  
     try {
       // Find the user by email
       const user = await Mentor.findOne({ email });
@@ -117,7 +114,6 @@ const MentorLogin = async (req, res) => {
   module.exports = {
     MentorLogin ,
     addMentor,
-    getMentorById,
     updateMentorProfile,
     deleteMentor ,
     
