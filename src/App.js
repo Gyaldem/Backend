@@ -6,7 +6,7 @@ const Participant = require('./models/Participant'); // Import the Participant m
 const { generatePasswordHash, generateRandomPassword } = require('./Utils/passwordUtils'); // Import the password utility functions 
 const app = express();
 
-// const mentorRoutes=require('./routes/mentorRoutes');
+const mentorRoutes=require('./routes/mentorRoutes');
 
 
 
@@ -39,7 +39,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/Db')
   });
 
 
-  // app.use('/', mentorRoutes); // Mounting mentor routes to /api/mentors path
+  app.use('/', mentorRoutes); // Mounting mentor routes to /api/mentors path
 
 
 
@@ -58,7 +58,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/Db')
 //     console.error('here is the error' + err);
 //   });
 // Route handler for '/home'
-
 
 // app.get('/home', (req, res) => {
 //   console.log("hind");

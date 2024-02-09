@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const {
   addMentor,
-  getMentorById,
   updateMentorProfile,
   deleteMentor
 } = require('../controllers/MentorCont');
@@ -11,7 +10,6 @@ const {
 router.post('/', addMentor);
 
 // Get mentor by ID
-router.get('/:id', getMentorById);
 
 // Update mentor profile
 router.put('/:id', updateMentorProfile);

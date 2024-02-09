@@ -9,7 +9,8 @@ const eventManagerSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  role :"2"
   // Other fields specific to EventManager
 });
 

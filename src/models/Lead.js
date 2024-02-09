@@ -9,7 +9,10 @@ const LeadSchema = new mongoose.Schema({
     type: String,
     required: true
   }, 
-  
+  role: {
+    type: String,
+    default: '1' // Default value for the role field
+  },
 });
 const Lead = mongoose.model('Lead', LeadSchema);
 
