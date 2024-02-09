@@ -10,7 +10,7 @@ const EventManagerCont = require('./controllers/EventManagerCont');
 
 const generateSpacesRoute = require('./routes/EventmanagementRoute');
 const fetchDatafromDB=require('./routes/FetchdBRout')
-const{fetchParticipantsFromMongoDB,fetchJudgesFromMongoDB,fetchMentorsFromMongoDB,
+const{fetchJudgesFromMongoDB,fetchMentorsFromMongoDB,
     fetchTeamsFromMongoDB} = require('./routes/FetchdBRout')
 
 
@@ -21,11 +21,12 @@ mongoose.connect("mongodb+srv://lylia:Q9MFU4dIajWfVZVC@auth.zrptolx.mongodb.net/
 
 
 
-app.use('/', generateSpacesRoute);
-app.use('/',fetchDatafromDB)
-app.use('/',fetchJudgesFromMongoDB)
-app.use('/',fetchMentorsFromMongoDB)
-app.use('/',fetchTeamsFromMongoDB)
+app.use('/api', generateSpacesRoute);
+app.use('/api',fetchDatafromDB)
+app.use('/api',fetchJudgesFromMongoDB)
+app.use('/api',fetchMentorsFromMongoDB)
+app.use('/api',fetchTeamsFromMongoDB)
+
 
 app.listen(5000 , ()=>
 {
