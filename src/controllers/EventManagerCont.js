@@ -50,8 +50,8 @@ const generateSpacesFromExcel = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'your_email@gmail.com',
-        pass: 'your_password'
+        user: 'lyliaaouin@gmail.com',
+        pass: 'esiLylia#1.6888$'
       }
     });
 
@@ -72,7 +72,7 @@ const generateSpacesFromExcel = async (req, res) => {
       console.log(`Participant saved: ${participant}`);
 
       const mailOptions = {
-        from: 'll_aouinine@esi.com',
+        from: 'll_aouinine@esi.dz',
         to: participant.email,
         subject: 'Login Details for Website',
         html: `<p>Hello ${participant.email},</p><p>Your password is: ${password}</p><p>Click <a href="http://yourwebsite.com/login">here</a> to login.</p>`
