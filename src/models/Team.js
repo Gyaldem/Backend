@@ -3,7 +3,7 @@ const participant = require('./Participant');
 const teamSchema = new mongoose.Schema({
     name: String, // Example field for the team name
     members: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: 'participant' // Replace 'Participant' with the actual model name for team members
     }]
 });

@@ -8,6 +8,3 @@ router.post('/generate-spaces', generateSpacesFromExcel); // Use the function as
 module.exports = router;
 
 
-router.post('/add-judge', (req, res) => {
-    // Code to handle adding a judge
-});
