@@ -72,7 +72,7 @@ const generateSpacesFromExcel = async (req, res) => {
       console.log(`Participant saved: ${participant}`);
 
       const mailOptions = {
-        from: 'your_email@gmail.com',
+        from: 'll_aouinine@esi.com',
         to: participant.email,
         subject: 'Login Details for Website',
         html: `<p>Hello ${participant.email},</p><p>Your password is: ${password}</p><p>Click <a href="http://yourwebsite.com/login">here</a> to login.</p>`
