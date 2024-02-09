@@ -9,6 +9,7 @@ require('dotenv').config();
 const EventManagerCont = require('./controllers/EventManagerCont');
 
 const generateSpacesRoute = require('./routes/EventmanagementRoute');
+const fetchDatafromDB=require('./routes/FetchdBRout')
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -18,6 +19,7 @@ mongoose.connect("mongodb+srv://lylia:Q9MFU4dIajWfVZVC@auth.zrptolx.mongodb.net/
 
 
 app.use('/api', generateSpacesRoute);
+app.use('/api',fetchDatafromDB)
 
 
 app.listen(5000 , ()=>
