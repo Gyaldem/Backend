@@ -5,16 +5,16 @@ const app = express();
 const EventManagerCont = require('./controllers/EventManagerCont');
 const { AddParticipant, AddMentor } = EventManagerCont;
  
-AddParticipant("Hind","lh_dehili@€si.dz","14");
-AddMentor("Hind","lh_dehili@€si.","fullstack","23"); 
+// AddParticipant("Hind","lh_dehili@€si.dz","14");
+// AddMentor("Hind","lh_dehili@€si.","fullstack","23"); 
 
 mongoose.connect('mongodb://127.0.0.1:27017/Db')
-.then(() => {
-  console.log("Connected to MongoDB");
-})
-.catch((err) => {
-  console.error("Error connecting to MongoDB:", err);
-});
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("Error connecting to MongoDB:", err);
+  });
 
  
 const newParticipant = new Participant({

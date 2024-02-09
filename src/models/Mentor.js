@@ -1,9 +1,22 @@
 const mongoose = require('mongoose');
+
 const mentorSchema = new mongoose.Schema({
- username : String ,
- email : String ,
- skill : String ,
- password : String
+    username: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
+  
 });
 
-module.exports = mongoose.model('Mentor', mentorSchema);
+const Mentor = mongoose.model('Mentor', mentorSchema);
+
+module.exports = Mentor;
