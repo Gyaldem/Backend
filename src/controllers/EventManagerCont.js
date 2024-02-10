@@ -1,8 +1,7 @@
 const EventManager = require('../models/EvenetManager');
 const Participant = require('../models/Participant');
-<<<<<<< HEAD
 const fs = require('fs');
-const nodemailer = require('Nodemailer');
+
 const XLSX = require('xlsx');
 const crypto = require('crypto');
 const mongoose=require('mongoose')
@@ -10,13 +9,13 @@ const Team= require('../models/Team');
 const emailSender=require('../Utils/emailSender')
 
 
-=======
+
 const team= require('../models/Team');
 const  passwordUtils  = require('../Utils/passwordUtils');
 
 const { generatePasswordHash ,generateRandomPassword } = passwordUtils;
 const bcrypt = require('bcrypt');
->>>>>>> efab0d382f5f4b264267e47d4c2af1ab0b1ffb29
+
 const getEventManagerById = async (req, res) => {
   try {
     const eventManagerId = req.params.id;
@@ -115,20 +114,11 @@ const generateSpacesFromExcel = async (req, res) => {
 };
 
 
-<<<<<<< HEAD
 function generateRandomPassword(length) {
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
   const randomBytes = crypto.randomBytes(length);
   let password = '';
-=======
-
-
-// function generateRandomPassword(length) {
-//   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
-//   const randomBytes = crypto.randomBytes(length);
-//   let password = '';
->>>>>>> efab0d382f5f4b264267e47d4c2af1ab0b1ffb29
-  
+}
 //   for (let i = 0; i < length; i++) {
 //       const index = randomBytes[i] % chars.length;
 //       password += chars[index];
