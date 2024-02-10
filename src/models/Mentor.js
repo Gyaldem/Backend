@@ -23,6 +23,10 @@ const mentorSchema = new mongoose.Schema({
     required:true,
     type:String
   },
+  role: {
+    type: String,
+    default: '3' // Default value for the role field
+  },
   
 });
 

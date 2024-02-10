@@ -21,7 +21,11 @@ const judgeSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  role: {
+    type: String,
+    default: '5' // Default value for the role field
+  },
   
   
 });

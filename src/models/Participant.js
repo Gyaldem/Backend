@@ -18,6 +18,10 @@ const participantSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  role: {
+    type: String,
+    default: '4' // Default value for the role field
+  },
 });
 
 module.exports = mongoose.model('Participant', participantSchema);
