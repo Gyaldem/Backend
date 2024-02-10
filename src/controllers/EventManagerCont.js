@@ -1,6 +1,10 @@
 const EventManager = require('../models/EvenetManager');
 const Participant = require('../models/Participant');
 const team= require('../models/Team');
+const  passwordUtils  = require('../Utils/passwordUtils');
+
+const { generatePasswordHash ,generateRandomPassword } = passwordUtils;
+const bcrypt = require('bcrypt');
 const getEventManagerById = async (req, res) => {
   try {
     const eventManagerId = req.params.id;
@@ -14,6 +18,28 @@ const getEventManagerById = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+const AddEventManager=async(req, res)=>
+{
+  try {
+    const { email , specialization } = req.body;
+console.log(req.body);
+    const hashedPassword = await generatePasswordHash(generateRandomPassword());       
+    const newEventManager = new EventManager({
+        email,
+        password: hashedPassword ,
+        specialization : specialization , 
+    });
+
+    // Save the new mentor to the database
+    const savedEventManager = await newEventManager.save();
+
+    res.status(201).json(savedEventManager);
+} catch (error) {
+    console.error('Error creating mentor:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+}
+
+}
 
 const generateSpacesFromExcel = async (req, res) => {
   try {
@@ -69,21 +95,22 @@ const generateSpacesFromExcel = async (req, res) => {
 
 
 
-function generateRandomPassword(length) {
-  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
-  const randomBytes = crypto.randomBytes(length);
-  let password = '';
+// function generateRandomPassword(length) {
+//   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+//   const randomBytes = crypto.randomBytes(length);
+//   let password = '';
   
-  for (let i = 0; i < length; i++) {
-      const index = randomBytes[i] % chars.length;
-      password += chars[index];
-  }
+//   for (let i = 0; i < length; i++) {
+//       const index = randomBytes[i] % chars.length;
+//       password += chars[index];
+//   }
   
-  return password;
-}
+//   return password;
+// }
 
 module.exports = {
   getEventManagerById,
   generateSpacesFromExcel,
+  AddEventManager
 };
 

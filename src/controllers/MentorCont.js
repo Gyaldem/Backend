@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const addMentor = async (req, res) => {
     try {
         const { email , specialization , linkedinUrl  } = req.body;
-
+    console.log(req.body);
         const hashedPassword = await generatePasswordHash(generateRandomPassword());       
         const newMentor = new Mentor({
             email,
@@ -68,15 +68,16 @@ const updateMentorProfile = async (req, res) => {
 // Controller function to delete mentor
 const deleteMentor = async (req, res) => {
     try {
-        const {email} = req.body;
-        // Delete mentor from the database
-        await Mentor.findOneAndDelete({email});
+        const mentorId = req.params.id; // Extracting mentor ID from URL params
+        // Delete mentor from the database using ID
+        await Mentor.findByIdAndDelete(mentorId);
         res.status(204).end();
     } catch (error) {
         console.error('Error deleting mentor:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 
 

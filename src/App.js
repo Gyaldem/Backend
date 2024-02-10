@@ -6,11 +6,16 @@ const Participant = require('./models/Participant'); // Import the Participant m
 const { generatePasswordHash, generateRandomPassword } = require('./Utils/passwordUtils'); // Import the password utility functions 
 const app = express();
 
+app.use(cors());
+
 const mentorRoutes=require('./routes/mentorRoutes');
+const authentificationRoutes=require('./routes/authentificationroutes') ;
+const EvenetManagerRoutes=require('./routes/EventmanagementRoute')
+const EventManagerCont = require('./controllers/EventManagerCont');
 
+const { login } = require('./Utils/Authentification');
 
-
-// const EventManagerCont = require('./controllers/EventManagerCont');
+const {AddEventManager} = EventManagerCont ;
 // const MentorCont = require('./controllers/MentorCont');
 // // const emailUtils=require('./utils/emailUtils');
 // const AuthentificationUtils = require('./Utils/Authentification')
@@ -34,14 +39,11 @@ mongoose.connect('mongodb://127.0.0.1:27017/Db')
 
 
 
-  app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-  });
-
+ 
 
   app.use('/', mentorRoutes); // Mounting mentor routes to /api/mentors path
-
-
+app.use('/', authentificationRoutes);
+app.use('/',EvenetManagerRoutes)
 
 // const newParticipant = new Participant({
 //   username: "hindooo",
@@ -59,10 +61,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/Db')
 //   });
 // Route handler for '/home'
 
-// app.get('/home', (req, res) => {
-//   console.log("hind");
-//   login(req,res); // Call MentorLogin function
-// });
 
 
-// sendEmail("ll_aouinine@esi.dz")
+// sendEmail("ll_aouinine@esi.dz")*
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});

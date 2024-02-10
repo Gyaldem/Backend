@@ -15,6 +15,6 @@ router.post('/', addMentor);
 router.put('/:id', updateMentorProfile);
 
 // Delete a mentor by ID
-router.delete('/:id', deleteMentor);
+router.delete('/delete/:id', deleteMentor);
 
 module.exports = router;
