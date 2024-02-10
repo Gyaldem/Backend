@@ -6,10 +6,16 @@ const bcrypt = require('bcrypt');
 // Controller function to create a new mentor
 const addMentor = async (req, res) => {
     try {
+<<<<<<< HEAD
+        const { name,email , specialization , linkedinUrl  } = req.body;
+
+=======
         const { email , specialization , linkedinUrl  } = req.body;
     console.log(req.body);
+>>>>>>> efab0d382f5f4b264267e47d4c2af1ab0b1ffb29
         const hashedPassword = await generatePasswordHash(generateRandomPassword());       
         const newMentor = new Mentor({
+            name,
             email,
             password: hashedPassword ,
             specialization : specialization , 

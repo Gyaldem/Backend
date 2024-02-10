@@ -1,10 +1,22 @@
 const EventManager = require('../models/EvenetManager');
 const Participant = require('../models/Participant');
+<<<<<<< HEAD
+const fs = require('fs');
+const nodemailer = require('Nodemailer');
+const XLSX = require('xlsx');
+const crypto = require('crypto');
+const mongoose=require('mongoose')
+const Team= require('../models/Team');
+const emailSender=require('../Utils/emailSender')
+
+
+=======
 const team= require('../models/Team');
 const  passwordUtils  = require('../Utils/passwordUtils');
 
 const { generatePasswordHash ,generateRandomPassword } = passwordUtils;
 const bcrypt = require('bcrypt');
+>>>>>>> efab0d382f5f4b264267e47d4c2af1ab0b1ffb29
 const getEventManagerById = async (req, res) => {
   try {
     const eventManagerId = req.params.id;
@@ -43,10 +55,12 @@ console.log(req.body);
 
 const generateSpacesFromExcel = async (req, res) => {
   try {
-    const excelFile = req.body.excelFile; // Assuming the Excel file is sent in the request body
+    console.log(req.body)
+    const filePath = req.body.filePath; 
+    const excelFileBuffer = fs.readFileSync(filePath);
+    
     // Code to read the Excel file and extract participant email and team information
-    // ...
-    const workbook = XLSX.read(excelFile, { type: 'buffer' });
+    const workbook = XLSX.read(excelFileBuffer, { type: 'buffer' });
     const sheetName = workbook.SheetNames[0]; // Assuming you want to read from the first sheet
     const sheet = workbook.Sheets[sheetName];
     const data = XLSX.utils.sheet_to_json(sheet, { header: 1 });
@@ -59,33 +73,41 @@ const generateSpacesFromExcel = async (req, res) => {
     const teamColumnIndex = headers.indexOf('Team'); // Assuming 'Team' is the header for the team column
 
     const result = rows.map(row => ({
-        email: row[emailColumnIndex],
-        team: row[teamColumnIndex]
+      email: row[emailColumnIndex],
+      team: row[teamColumnIndex],
     }));
-    
-    try {
-      for (const participantData of result) {
-          const participant = new Participant({
-              email: participantData.email,
-              teamId: participantData.team,
-              password: generateRandomPassword(8)
-          });
-          await participant.save(); // Save participant to the database
-          console.log(`Participant saved: ${participant}`);
-          const teams = [...new Set(result.map(row => row.team))];
-          for (const teamId of teams) {
-              const team = new team({
-                  _id: teamId,
-                  members: result.filter(row => row.team === teamId).map(row => row.email)
-              });
-              await team.save(); // Save team to the database
-              console.log(`Team saved: ${team}`);
+
+    for (const participantData of result) {
+      const password = generateRandomPassword(8);
+      const existingParticipant = await Participant.findOne({ email: participantData.email });
+
+      if (existingParticipant) {
+        console.log(`Participant with email ${participantData.email} already exists. Skipping insertion.`);
+        continue; // Skip insertion and move to the next participant
       }
-      console.log('All participants saved successfully');}
-  } catch (error) {
-      console.error('Error saving participants:', error);
-  }
-    res.json(spaces);
+      const participant = new Participant({
+        email: participantData.email,
+        teamname: participantData.team,
+        password: password
+      });
+      await participant.save(); // Save participant to the database
+      console.log(`Participant saved: ${participant}`);
+      emailSender(participant.email,participant.email,password,"http://yourwebsite.com/login")
+      
+    }
+
+    const teams = [...new Set(result.map(row => row.team))];
+    for (const teamId of teams) {
+      const team = new Team({
+        name:teamId,
+        members: result.filter(row => row.team === teamId).map(row => row.email)
+      });
+      await team.save(); // Save team to the database
+      console.log(`Team saved: ${team}`);
+    }
+
+    console.log('All participants and teams saved successfully');
+    res.json({ message: 'All participants and teams saved successfully' });
   } catch (error) {
     console.error('Error generating spaces from Excel:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -93,12 +115,19 @@ const generateSpacesFromExcel = async (req, res) => {
 };
 
 
+<<<<<<< HEAD
+function generateRandomPassword(length) {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+  const randomBytes = crypto.randomBytes(length);
+  let password = '';
+=======
 
 
 // function generateRandomPassword(length) {
 //   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
 //   const randomBytes = crypto.randomBytes(length);
 //   let password = '';
+>>>>>>> efab0d382f5f4b264267e47d4c2af1ab0b1ffb29
   
 //   for (let i = 0; i < length; i++) {
 //       const index = randomBytes[i] % chars.length;

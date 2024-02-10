@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 const judgeSchema = new mongoose.Schema({
+  name:{
+    type:String,
+    required:true,
+    unique:true,
+   },
   email: {
     type: String,
     required: true,
