@@ -6,6 +6,9 @@ const themeSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  guidelines: {
+    type: String,
+  },
   description: {
     type: String,
     required: true
@@ -14,11 +17,6 @@ const themeSchema = new mongoose.Schema({
     type: String,
     ref: 'Event',
   },
-  rquirements:{
-    type: String,
-    required: true
-  }
-
 
 });
 

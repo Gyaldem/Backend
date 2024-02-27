@@ -25,7 +25,6 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-
 mongoose.connect(process.env.MONGO_URI);
 
 app.use('/api', generateSpacesRoute);
@@ -35,8 +34,8 @@ app.use('/', authentificationRoutes);
 app.use('/',EvenetManagerRoutes)
 
 
-
 app.listen(5000, () => {
   console.log('Connected to MongoDB');
-  
+  console.log('Server is running on port 5000');
 });
+

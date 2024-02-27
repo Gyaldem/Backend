@@ -32,6 +32,12 @@ const createEvent = async (req, res) => {
 };
 
 //----------------------------------------------------------------------
+/**
+ * Updates an event by its ID.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - A promise that resolves with the updated event or an error.
+ */
 const updateEvent = async (req, res) => {
   try {
     const eventId = req.params.id;

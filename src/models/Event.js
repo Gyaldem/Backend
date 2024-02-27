@@ -7,7 +7,6 @@ const eventSchema = new mongoose.Schema({
   teams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Team' }],
   mentors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Mentor' }],
   judges: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Judge' }],
-  description: String,
   challenges: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Challenge' }],
   theme: { type: mongoose.Schema.Types.ObjectId, ref: 'Theme' },
   agenda: [
@@ -19,7 +18,8 @@ const eventSchema = new mongoose.Schema({
     }
   ],
   countdownEndTime: Date,
-  eventManager: { type: mongoose.Schema.Types.ObjectId, ref: 'EventManager' }
+  eventManager: { type: mongoose.Schema.Types.ObjectId, ref: 'EventManager' },
+  files: [{ filename: String, path: String }] // Array to store file information
 });
 
 // Define static method for the event schema
