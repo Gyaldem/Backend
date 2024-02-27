@@ -1,6 +1,11 @@
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
-
+/**
+ * Generates a hash for the given plaintext password.
+ * @param {string} plaintextPassword - The plaintext password to be hashed.
+ * @returns {Promise<string>} A promise that resolves with the hashed password.
+ */
 function generatePasswordHash(plaintextPassword) {
     return new Promise((resolve, reject) => {
         // Generate a salt
@@ -24,22 +29,53 @@ function generatePasswordHash(plaintextPassword) {
     });
 }
 
-function generateRandomPassword() {
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // Characters to include in the password
-    let password = "";
-    for (let i = 0; i < 8; i++) {
-        const randomIndex = Math.floor(Math.random() * charset.length);
-        password += charset[randomIndex];
+/**
+ * Generates a random password of the specified length.
+ * @param {number} length - The length of the password to generate.
+ * @returns {string} The randomly generated password.
+ */
+function generateRandomPassword(length) {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+    const randomBytes = crypto.randomBytes(length);
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const index = randomBytes[i] % chars.length;
+        password += chars[index];
     }
+    
     return password;
-}
+  }
+
 function generatePassword()
 {
     return generatePasswordHash(generateRandomPassword());
 }
 
+
+/**
+ * Compares a plaintext password with a hashed password.
+ * @param {string} plaintextPassword - The plaintext password to compare.
+ * @param {string} hashedPassword - The hashed password to compare against.
+ * @returns {Promise<boolean>} A promise that resolves with the comparison result (true if the passwords match, false otherwise).
+ */
+function comparePassword(plaintextPassword, hashedPassword) {
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(plaintextPassword, hashedPassword, function(err, result) {
+            if (err) {
+                // Reject the promise if there's an error
+                return reject(err);
+            }
+
+            // Resolve the promise with the comparison result
+            resolve(result);
+        });
+    });
+}
+
+
 module.exports = {
     generatePasswordHash,
     generateRandomPassword,
-    generatePassword
+    generatePassword,
+    comparePassword
 };

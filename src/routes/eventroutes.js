@@ -28,3 +28,4 @@ router.get('/:id', getEventById);
 router.get('/:id/countdown', showEventCountdown);
 
 module.exports = router;
+
